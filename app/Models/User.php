@@ -21,7 +21,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'phone_number'
+        'phone_number',
+        'otp_verified'
     ];
 
     /**
@@ -44,6 +45,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'otp_verified' => 'boolean'
         ];
     }
 }

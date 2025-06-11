@@ -36,6 +36,13 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        $user = Auth::user();
+
+        // Set otp verification to false on logout
+        if ($user) {
+            $user->update(['otp_verified' => false]);
+        }
+
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
