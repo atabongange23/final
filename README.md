@@ -20,3 +20,4 @@ Laravel is accessible, powerful, and provides tools required for large, robust a
 
 1) mews/captcha (Captcha for Laravel 5+ )
 2) laravel/breeze (Laravel Authentication Starter Kit)
+3) twilio/sdk (To help with the OTP SMS messages)
