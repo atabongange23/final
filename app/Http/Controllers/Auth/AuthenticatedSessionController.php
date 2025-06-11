@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
         $request->session()->regenerate();
 
-        // Set OTP verification to false upon login so as to initiate verification
+        // Dispatch userloggedin event
         UserLoggedIn::dispatch(Auth::user());
 
         return redirect()->intended(route('dashboard', absolute: false));
