@@ -24,6 +24,15 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
+       <div class="mt-4">
+           
+            <img src="{{ captcha_src() }}" alt="captcha">
+            <div class="mt-2"></div>
+            <x-text-input id="captcha" class="block mt-1 w-full" type="text" name="captcha" :value="old('captcha')" placeholder="Please Insert Captcha" />
+            
+             <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
+       </div>
+
         <!-- Remember Me -->
         <div class="block mt-4">
             <label for="remember_me" class="inline-flex items-center">
