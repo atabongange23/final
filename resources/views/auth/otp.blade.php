@@ -11,16 +11,17 @@
     <form method="POST" action="{{ route('otp.validate') }}">
         @csrf
         
-        <div class="flex items-between w-full">
+        <div class="flex items-between w-full mb-3">
             @for($i = 0 ; $i < 6; $i++)
                 <div class="px-2">
                     <x-input-label for="otp-{{ $i }}" class="sr-only" :value="__('OTP')" />
                     <x-text-input id="otp-{{ $i }}" class="otpfield block mt-1 w-12 h-12 text-center" type="text" name="otp[]" :value="old('otp')" maxlength="1" onkeydown="handleOtpKey(event, {{ $i }})" oninput="handleOtpInput(event, {{ $i }})"  required  />
                 </div>
             @endfor
-            <x-input-error :messages="$errors->get('otp')" class="mt-2" />
+           
         </div>
-        
+
+        <x-input-error :messages="$errors->get('otp')" class="mt-2" />
 
       
         <div class="flex items-center justify-end mt-4">
