@@ -3,6 +3,7 @@ namespace App\Services;
 
 use App\Models\Otp;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class OtpService
 {
@@ -20,7 +21,11 @@ class OtpService
             'expires_at' => Carbon::now()->addMinutes(5),
         ]);
 
-        $this->twilio->send($phoneNumber, "Your OTP code is: $code");
+        try {
+             $this->twilio->send($phoneNumber, "Your OTP code is: $code");
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
 
         return $otp;
     }
@@ -42,6 +47,22 @@ class OtpService
         }
 
         $otp->update(['verified_at' => now()]);
+        return true;
+    }
+
+
+    public function existingCode(string $phoneNumber) {
+        // Generate OTP only if one isn't active
+        $existing = Otp::where('phone_number', $phoneNumber)
+            ->where('expires_at', '>', now())
+            ->whereNull('verified_at')
+            ->latest()
+            ->first();
+
+        if(!$existing) {
+            return false;
+        }
+
         return true;
     }
 }

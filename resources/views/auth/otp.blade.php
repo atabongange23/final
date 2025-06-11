@@ -24,11 +24,20 @@
         <x-input-error :messages="$errors->get('otp')" class="mt-2" />
 
       
-        <div class="flex items-center justify-end mt-4">
+        <div class="flex items-center justify-start mt-4">
             <x-primary-button class="ms-3">
                 {{ __('Verify') }}
             </x-primary-button>
         </div>
+    </form>
+
+     <form method="POST" class="mt-3" action="{{ route('otp.send') }}">
+            @csrf
+            <div class="flex items-center justify-end">
+                <button type="submit" class="text-sm underline">
+                    {{ __('Resend Verification Code') }}
+                </button>
+            </div>
     </form>
 </x-guest-layout>
 

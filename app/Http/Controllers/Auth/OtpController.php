@@ -14,19 +14,6 @@ class OtpController extends Controller
 
     public function create()
     {
-         $user = Auth::user();
-
-        // Generate OTP only if one isn't active
-        $existing = Otp::where('phone_number', $user->phone_number)
-            ->where('expires_at', '>', now())
-            ->whereNull('verified_at')
-            ->latest()
-            ->first();
-
-        if (!$existing) {
-            $this->otpService->generate($user->phone_number, 'login', $user->id);
-        }
-
         return view('auth.otp');
     }
 
@@ -38,12 +25,17 @@ class OtpController extends Controller
         $user = Auth::user();
 
         if (!$user->phone_number) {
-            return back()->with('error', 'No phone number associated with your account.');
+            return back()->with('status', 'No phone number associated with your account.');
         }
-
+        
+        // Generate OTP only if one isn't active
+        if($this->otpService->existingCode($user->phone_number)) {
+            return back()->with('status', 'Please wait for 5 minutes before resending the code.');
+        }
+        
         $this->otpService->generate($user->phone_number, 'login', $user->id);
 
-        return back()->with('success', 'OTP has been sent to your phone.');
+        return back()->with('status', 'OTP has been sent to your phone.');
     }
 
      /**
