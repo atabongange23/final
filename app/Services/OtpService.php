@@ -9,7 +9,7 @@ class OtpService
 {
     public function __construct(protected TwilioService $twilio){}
 
-    public function generate(string $phoneNumber, string $type = 'login', ?int $userId = null): Otp
+    public function generate(string $phoneNumber, string $type = 'login', int $userId): Otp
     {
         $code = rand(100000, 999999);
 
